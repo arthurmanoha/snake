@@ -20,10 +20,13 @@ public class Snake {
 
     private CardinalPoint currentHeading;
 
+    private boolean mustGrowNextMove;
+
     public Snake() {
         parts = new ArrayList<>();
         parts.add(new SnakePart(0, 0, true));
         currentHeading = CardinalPoint.EAST;
+        mustGrowNextMove = false;
     }
 
     public void paint(Graphics g, int squareSize) {
@@ -67,6 +70,14 @@ public class Snake {
     }
 
     void move() {
+
+        if (mustGrowNextMove) {
+            // Create a new snakePart where the last one currently is.
+            SnakePart newPart = new SnakePart(0, 0, false);
+            parts.add(newPart);
+        }
+        mustGrowNextMove = false;
+
         for (int rank = parts.size() - 1; rank >= 1; rank--) {
             // Each part will follow and replace another part.
             parts.get(rank).setPosition(parts.get(rank - 1));
@@ -99,11 +110,14 @@ public class Snake {
         head.setPosition(head.row + dRow, head.col + dCol);
     }
 
-    boolean eat(int foodRow, int foodCol) {
-        return false;
+    public boolean eat(int foodRow, int foodCol) {
+        SnakePart head = parts.get(0);
+        return (head.row == foodRow && head.col == foodCol);
     }
 
-    void grow() {
+    public void grow() {
+        mustGrowNextMove = true;
+        System.out.println("Must grow");
     }
 
 }

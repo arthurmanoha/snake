@@ -48,6 +48,8 @@ public class World {
         if (snek.eat(foodRow, foodCol)) {
             // Grow one segment to the snake
             snek.grow();
+            // Generate a new target
+            generateFood();
         }
 
         updateListeners();
