@@ -55,16 +55,24 @@ public class Snake {
 
         switch (e.getKeyCode()) {
         case KeyEvent.VK_LEFT:
-            currentHeading = CardinalPoint.WEST;
+            if (currentHeading != CardinalPoint.EAST) {
+                currentHeading = CardinalPoint.WEST;
+            }
             break;
         case KeyEvent.VK_RIGHT:
-            currentHeading = CardinalPoint.EAST;
+            if (currentHeading != CardinalPoint.WEST) {
+                currentHeading = CardinalPoint.EAST;
+            }
             break;
         case KeyEvent.VK_UP:
-            currentHeading = CardinalPoint.NORTH;
+            if (currentHeading != CardinalPoint.SOUTH) {
+                currentHeading = CardinalPoint.NORTH;
+            }
             break;
         case KeyEvent.VK_DOWN:
-            currentHeading = CardinalPoint.SOUTH;
+            if (currentHeading != CardinalPoint.NORTH) {
+                currentHeading = CardinalPoint.SOUTH;
+            }
             break;
         }
     }
