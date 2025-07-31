@@ -120,4 +120,21 @@ public class Snake {
         System.out.println("Must grow");
     }
 
+    /**
+     * Test if the snake is currently eating itself.
+     *
+     * @return true when the head moves on a part of the snake.
+     */
+    public boolean selfCollides() {
+        SnakePart head = parts.get(0);
+        for (int rank = 1; rank < parts.size(); rank++) {
+            SnakePart bodyPart = parts.get(rank);
+            if (bodyPart.row == head.row && bodyPart.col == head.col) {
+                // Collision detected
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

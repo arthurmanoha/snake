@@ -20,23 +20,18 @@ public class World {
 
     private Timer timer;
     private int delay = 0;
-    private int period = 1000;
+    private int period = 400;
+    private boolean isPlaying;
 
     private ArrayList<Listener> listenersList;
 
     public World() {
-        this.nbCols = 15;
-        this.nbLines = 10;
+        this.nbCols = 20;
+        this.nbLines = 15;
         snek = new Snake();
         generateFood();
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                evolve();
-            }
-
-        }, delay, period);
+        isPlaying = false;
+        startTimer();
         listenersList = new ArrayList<>();
 
     }
@@ -50,6 +45,9 @@ public class World {
             snek.grow();
             // Generate a new target
             generateFood();
+        }
+        if (snek.selfCollides()) {
+            restartGame();
         }
 
         updateListeners();
@@ -120,5 +118,35 @@ public class World {
         for (Listener li : listenersList) {
             li.update();
         }
+    }
+
+    private void restartGame() {
+        snek = new Snake();
+    }
+
+    void togglePause() {
+        if (isPlaying) {
+            stopTimer();
+        } else {
+            startTimer();
+        }
+    }
+
+    private void startTimer() {
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                evolve();
+            }
+
+        }, delay, period);
+        isPlaying = true;
+    }
+
+    private void stopTimer() {
+        timer.cancel();
+        isPlaying = false;
     }
 }
