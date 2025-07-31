@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class GraphicPanel extends JPanel implements Listener {
 
     private World w;
-    private int rowWidth = 75;
+    private int rowWidth = 30;
 
     public GraphicPanel(World world) {
         this.w = world;
