@@ -20,7 +20,7 @@ public class World {
 
     private Timer timer;
     private int delay = 0;
-    private int period = 400;
+    private int period = 100;
     private boolean isPlaying;
 
     private ArrayList<Listener> listenersList;
@@ -39,6 +39,8 @@ public class World {
     private void evolve() {
         // Move the snake
         snek.move();
+        loopAroundBorders(snek);
+
         // Eat the food
         if (snek.eat(foodRow, foodCol)) {
             // Grow one segment to the snake
@@ -47,6 +49,7 @@ public class World {
             generateFood();
         }
         if (snek.selfCollides()) {
+            togglePause();
             restartGame();
         }
 
@@ -148,5 +151,23 @@ public class World {
     private void stopTimer() {
         timer.cancel();
         isPlaying = false;
+    }
+
+    /**
+     * Teleport to the other side of the world when the border is reached.
+     *
+     * @param snek
+     */
+    private void loopAroundBorders(Snake snek) {
+        SnakePart currentHead = snek.getHeadPosition();
+        if (currentHead.col > this.nbCols - 1) {
+            snek.teleport(Snake.CardinalPoint.WEST, nbCols, nbLines);
+        } else if (currentHead.col < 0) {
+            snek.teleport(Snake.CardinalPoint.EAST, nbCols, nbLines);
+        } else if (currentHead.row > this.nbLines - 1) {
+            snek.teleport(Snake.CardinalPoint.NORTH, nbCols, nbLines);
+        } else if (currentHead.row < 0) {
+            snek.teleport(Snake.CardinalPoint.SOUTH, nbCols, nbLines);
+        }
     }
 }
