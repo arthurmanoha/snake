@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Snake {
 
-    private enum CardinalPoint {
+    public enum CardinalPoint {
         NORTH, SOUTH, EAST, WEST
     }
 
@@ -135,6 +135,37 @@ public class Snake {
             }
         }
         return false;
+    }
+
+    /**
+     * Return a copy of the head position.
+     *
+     * @return the position of the snakes' head.
+     */
+    public SnakePart getHeadPosition() {
+        SnakePart head = parts.get(0);
+        SnakePart headCopy = new SnakePart(head.row, head.col, false);
+        return headCopy;
+    }
+
+    protected void teleport(CardinalPoint cardinalPoint, int nbCols, int nbLines) {
+
+        SnakePart head = parts.get(0);
+
+        switch (cardinalPoint) {
+        case WEST:
+            head.col = 0;
+            break;
+        case EAST:
+            head.col = nbCols - 1;
+            break;
+        case NORTH:
+            head.row = 0;
+            break;
+        case SOUTH:
+            head.row = nbLines - 1;
+            break;
+        }
     }
 
 }
